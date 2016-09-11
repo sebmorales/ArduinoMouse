@@ -1,6 +1,12 @@
-
-//https://www.arduino.cc/en/Reference/MouseMove
-//https://www.sparkfun.com/tutorials/272
+////////////////////
+//  The following code will control the computer mouse with a joystick and two buttons
+//  The code is heavely influenced by the following links. 
+//
+//  https://www.arduino.cc/en/Reference/MouseMove
+//  https://www.sparkfun.com/tutorials/272
+//
+//  Sebastian Morales sebastian@adorevolution.com
+///////////////////
 
 //Pins Joystick
 const int pinJoyX = 2; // analog
@@ -8,40 +14,35 @@ const int pinJoyY = 3; // analog
 const int pinJoyB = 6; // digital
 float joyX, joyY, joyB;
 float mScroll=0.0;
-int leftB, rightB;
 
 //pins Mouse
 const int pinLeftB=4;
 const int pinRightB=5;
+int leftB, rightB;
 int previousLeftB=HIGH;
 int previousRightB=HIGH;
 float speedMouse=.2;//1=100% 0.0=0%
 int scrollSpeed=70;//milliseconds to delay
 
 
-void setup()
-{
-  // make the SEL line an input
+void setup(){
+  
   pinMode(pinJoyB,INPUT);
   pinMode(pinRightB,INPUT);
   pinMode(pinLeftB,INPUT);
   
-  // turn on the pull-up resistor for the SEL line (see http://arduino.cc/en/Tutorial/DigitalPins)
   digitalWrite(pinJoyB,HIGH);
   digitalWrite(pinLeftB,HIGH);
   digitalWrite(pinRightB,HIGH);
 
-  // set up serial port for output
   Serial.begin(9600);
   Mouse.begin();
 
 }
 
-void loop() 
-{   
+void loop(){   
   normalizeJoystick();
   readButtons(); 
-  
   Mouse.move(joyX, joyY, mScroll);
   delay(20);
 }  
@@ -65,7 +66,6 @@ void normalizeJoystick(){
   else{
     mScroll=0;
   }
-  
 }
 
 void readButtons(){ 
